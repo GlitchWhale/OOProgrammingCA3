@@ -1,10 +1,12 @@
+import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.Stack;
+import java.util.StringTokenizer;
 
 public class Questions1to10CA3 {
     public static void main(String[] args) throws IOException {
-        question1();
+        question4();
     }
 
     public static void question1() throws IOException {
@@ -29,7 +31,7 @@ public class Questions1to10CA3 {
         //loop the simulation until the user enters 0
         do {
             //prompt the user to enter a number in the loop so that it can be stopped
-            while(true) {
+            while (true) {
                 try {
                     System.out.println("Enter a number to add a car to the driveway, enter a negative number to remove a car from the driveway, enter 0 to stop the simulation");
                     input = kb.nextInt();
@@ -114,6 +116,31 @@ public class Questions1to10CA3 {
 //  The inner tags must be closed before the outer ones. Your program should process a file
 //  containing tags. For simplicity, assume that the tags are separated by spaces, and that there is
 //  no text inside the tags.
+
+        //variables
+        Stack<String> tags = new Stack<>();
+        String filename;
+        String input;
+        boolean balanced;
+
+        //prompt the user to enter a filename
+        Scanner kb = new Scanner(System.in);
+        System.out.println("Enter a filename");
+        filename = kb.nextLine();
+
+        //loop until the user enters a valid filename that exists
+        while (!new File("src/" + filename + ".txt").exists()) {
+            System.out.println("File not found, enter a valid filename");
+            filename = kb.nextLine();
+        }
+        File file = new File("src/" + filename+".txt");
+
+//        //prompt the user to enter a string of tags
+//        StringTokenizer st = new StringTokenizer(input, " ");
+//        //loop through the string of tags
+//        while (st.hasMoreTokens()) {
+//            String token = st.nextToken();
+//        }
     }
 
     public static void question5() {
