@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.Stack;
@@ -121,26 +122,77 @@ public class Questions1to10CA3 {
         Stack<String> tags = new Stack<>();
         String filename;
         String input;
-        boolean balanced;
+        boolean balanced=true;
+        String message="";
+        int choice=1;
 
-        //prompt the user to enter a filename
-        Scanner kb = new Scanner(System.in);
-        System.out.println("Enter a filename");
-        filename = kb.nextLine();
-
-        //loop until the user enters a valid filename that exists
-        while (!new File("src/" + filename + ".txt").exists()) {
-            System.out.println("File not found, enter a valid filename");
+        //create loop to keep the program running until the user enters 0
+        while(choice!=0) {
+            //prompt the user to enter a filename
+            Scanner kb = new Scanner(System.in);
+            System.out.println("Enter a filename");
             filename = kb.nextLine();
-        }
-        File file = new File("src/" + filename+".txt");
 
-//        //prompt the user to enter a string of tags
-//        StringTokenizer st = new StringTokenizer(input, " ");
-//        //loop through the string of tags
-//        while (st.hasMoreTokens()) {
-//            String token = st.nextToken();
-//        }
+            //loop until the user enters a valid filename that exists
+            while (!new File("src/" + filename + ".txt").exists()) {
+                System.out.println("File not found, enter a valid filename");
+                filename = kb.nextLine();
+            }
+            File file = new File("src/" + filename + ".txt");
+            //read the file
+            try {
+                //create a scanner to read the file
+                Scanner fileReader = new Scanner(file);
+                //loop through the file
+                while (fileReader.hasNextLine()) {
+                    //read the line
+                    input = fileReader.nextLine();
+                    System.out.println(input);
+                    //create a string tokenizer to read the line
+                    StringTokenizer st = new StringTokenizer(input, " ");
+                    //loop through the string tokenizer
+                    while (st.hasMoreTokens()) {
+                        //store the token
+                        String token = st.nextToken();
+                        //if the token is an opening tag, push it to the stack
+                        if (token.charAt(0) == '<' && token.charAt(1) != '/' && token.charAt(token.length() - 1) == '>') {
+                            tags.push(token);
+                        }
+                        //if the token is a closing tag, check if it matches the top of the stack
+                        else if (token.charAt(0) == '<' && token.charAt(1) == '/' && token.charAt(token.length() - 1) == '>') {
+                            //if the stack is empty, the tags are not balanced
+                            if (tags.isEmpty()) {
+                                balanced = false;
+                            }
+                            //if the stack is not empty, check if the closing tag matches the top of the stack
+                            else {
+                                //if the closing tag matches the top of the stack, pop the top of the stack
+                                if (token.equals("</" + tags.peek().substring(1))) {
+                                    tags.pop();
+                                }
+                                //if the closing tag does not match the top of the stack, the tags are not balanced
+                                else {
+                                    balanced = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            if (!balanced) {
+                message = "The tags are not balanced";
+            } else if (tags.isEmpty()){
+                message = "The tags are balanced";
+            } else {
+                message = "The tags are not balanced";
+            }
+            System.out.println(message);
+            //prompt the user to enter 0 to stop the program or 1 to continue
+            System.out.println("\nEnter 0 to stop the program or 1 to continue");
+            choice = kb.nextInt();
+        }
     }
 
     public static void question5() {
