@@ -1,9 +1,13 @@
-public class Questions1to10CA3 {
-    public static void main(String[] args) {
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.Stack;
 
+public class Questions1to10CA3 {
+    public static void main(String[] args) throws IOException {
+        question1();
     }
 
-    public static void question1(){
+    public static void question1() throws IOException {
         //  Question 1 – Car Parking (Stack)
         //  A homeowner rents out parking spaces in a driveway during special events. The driveway is
         //  a “last-in, first-out” LIFO stack. Of course, when a car owner retrieves a vehicle that wasn’t
@@ -14,9 +18,66 @@ public class Questions1to10CA3 {
         //  stops the simulation. Print out the stack after each operation is complete.
         //  So, entering “1” means – add car number 1 to the driveway, entering “-2” means - retrieve
         //  car number 2 from the driveway.
+
+        //variables
+        Stack<Integer> driveway = new Stack<>();
+        Stack<Integer> street = new Stack<>();
+        Scanner kb = new Scanner(System.in);
+        int input;
+        int car;
+
+        //loop the simulation until the user enters 0
+        do {
+            //prompt the user to enter a number in the loop so that it can be stopped
+            while(true) {
+                try {
+                    System.out.println("Enter a number to add a car to the driveway, enter a negative number to remove a car from the driveway, enter 0 to stop the simulation");
+                    input = kb.nextInt();
+                    break;
+                } catch (Exception e) {
+                    //if the user enters a non-integer, print "Invalid input"
+                    System.out.println("Invalid input");
+                    //clear the scanner
+                    kb.nextLine();
+                }
+            }
+            //if the input is a positive integer, add it to the driveway
+            if (input > 0) {
+                driveway.push(input);
+                System.out.println("Driveway: " + driveway);
+            }
+            //if the input is a negative integer, remove it from the driveway
+            //print the street and driveway after each operation to show hoe the stacks are functioning
+            else if (input < 0) {
+                //the car variable is the input multiplied by -1 to make it positive since the negative integer is that cars value but the minus means to remove that instance of car
+                car = input * -1;
+                if (driveway.contains(car)) {
+                    //if the input is in the driveway but not at the top of the stack, move the cars blocking it to the street
+                    while (driveway.peek() != car) {
+                        street.push(driveway.pop());
+                        System.out.println("Driveway: " + driveway);
+                        System.out.println("Street: " + street);
+                    }
+                    //then remove the car from the driveway
+                    driveway.pop();
+                    //then move the cars from the street back to the driveway
+                    while (!street.isEmpty()) {
+                        System.out.println("Driveway: " + driveway);
+                        System.out.println("Street: " + street);
+                        driveway.push(street.pop());
+                    }
+                } else {
+                    //if the input is not in the driveway, print "Car not found"
+                    System.out.println("Car not found");
+                }
+
+            }
+        } while (input != 0);
+        //when the user enters 0, print "Simulation stopped"
+        System.out.println("Simulation stopped");
     }
 
-    public static void question2(){
+    public static void question2() {
         //    Question 2 - Flood Fill (Stack)
 //     In a paint program, a “flood fill” fills all empty pixels of a drawing with a given colour,
 //      stopping when it reaches occupied pixels. In this exercise, you will implement a simple
@@ -34,7 +95,7 @@ public class Questions1to10CA3 {
 //          • When you are done (i..e stack is empty), print the entire 2D array.
     }
 
-    public static void question3(){
+    public static void question3() {
 //    Question 3 – Java Identifier Count (Map)
 //     Write a program that reads a Java source file and produces an index of all identifiers in the
 //      file. (Identifiers are variable names, class names and keywords etc.) For each identifier, print
@@ -44,7 +105,7 @@ public class Questions1to10CA3 {
 //      next returns an identifier.
     }
 
-    public static void question4(){
+    public static void question4() {
 //  Question 4 – Nested HTML Tags (Stack)
 //  Write a program that checks whether a sequence of HTML tags is properly nested. For each
 //  opening tag, such as <p>, there must be a closing tag </p>. A tag such as <p> may have
@@ -55,7 +116,7 @@ public class Questions1to10CA3 {
 //  no text inside the tags.
     }
 
-    public static void question5(){
+    public static void question5() {
         //  Question 5 – Airport Flights (Queue)
         //  An airport has only one runway. When it is busy, planes wishing to take off or land have to
         //  wait. Implement a simulation, using two queues, one each for the planes waiting to take off
@@ -70,7 +131,7 @@ public class Questions1to10CA3 {
         //  next(); // will complete the takeoff/landing of the current flight and initiate landing of the next prioritized flight’ i.e. Flight-320
     }
 
-    public static void question6(){
+    public static void question6() {
         //  Question 6 – Stock Shares Tax Calculation (Queue)
         //  Suppose you buy 100 shares of a stock at $12 per share, then another 100 at $10 per share,
         //  and then sell 150 shares at $15. You have to pay taxes on the gain, but exactly what is the
@@ -83,27 +144,27 @@ public class Questions1to10CA3 {
         //  shares.
     }
 
-    public static void question7(){
+    public static void question7() {
 //  Question 7 – Multi-Company Stock Shares Tax Calculation (Queue)
 //  Extend Question 6 to a program that can handle shares of multiple companies. The user
 //  enters commands buy symbol quantity price and sell symbol quantity. Hint: Keep a
 //  Map<String, Queue<Block>> that manages a separate queue for each stock symbol
     }
 
-    public static void question8(){
+    public static void question8() {
         //  Question 8 Arithmetic Expression Calculator (Stack)
         //  Implement a calculator to evaluate arithmetic expressions for the operators + - * / and
         //  parenthesis ( ). See the accompanying PDF document which is an extract from a book
         //  explaining the algorithm
     }
 
-    public static void question9(){
+    public static void question9() {
         //  Question 9 – Backtracking through a Maze (Stack)
         //  Implement a backtracking algorithm, using a Stack, to find a path through a maze from start to exit.
         //  Refer to description of algorithm (from textbook) in the accompanying PDF.
     }
 
-    public static void question10(){
+    public static void question10() {
 //  Question 10 – Shortest Distance to City (Map, TreeSet, PriorityQueue)
 //  Consider the problem of finding the least expensive routes to all cities in a network from a given
 //  starting point.
