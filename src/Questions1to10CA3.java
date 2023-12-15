@@ -6,11 +6,20 @@ import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Questions1to10CA3 {
-    public static void main(String[] args) throws IOException {
-        question4();
+    public static void main(String[] args){
+//        question1();
+        question2();
+//        question3();
+//        question4();
+//        question5();
+//        question6();
+//        question7();
+//        question8();
+//        question9();
+//        question10();
     }
 
-    public static void question1() throws IOException {
+    public static void question1(){
         //  Question 1 – Car Parking (Stack)
         //  A homeowner rents out parking spaces in a driveway during special events. The driveway is
         //  a “last-in, first-out” LIFO stack. Of course, when a car owner retrieves a vehicle that wasn’t
@@ -80,7 +89,7 @@ public class Questions1to10CA3 {
         System.out.println("Simulation stopped");
     }
 
-    public static void question2() {
+    public static void question2(){
         //    Question 2 - Flood Fill (Stack)
 //     In a paint program, a “flood fill” fills all empty pixels of a drawing with a given colour,
 //      stopping when it reaches occupied pixels. In this exercise, you will implement a simple
@@ -96,6 +105,100 @@ public class Questions1to10CA3 {
 //                  o Push the coordinates of any unfilled neighbours in the north, east, south, or
 //                  west direction on the stack.
 //          • When you are done (i..e stack is empty), print the entire 2D array.
+
+        //variables
+        int[][] pixels = new int[10][10];
+        Stack<Pair> coordinates = new Stack<>();
+        Scanner kb = new Scanner(System.in);
+        int row;
+        int column;
+        int count = 1;
+        int choice = 1;
+
+        //loop until the user enters 0
+        while (choice != 0) {
+            //prompt the user to enter a row and column, catch any exceptions, and loop until the user enters a valid row and column that is in the array
+            while (true) {
+                try {
+                    System.out.println("Enter a row");
+                    row = kb.nextInt();
+                    System.out.println("Enter a column");
+                    column = kb.nextInt();
+                    //check if the row and column are in the array
+                    if (row >= 0 && row < pixels.length && column >= 0 && column < pixels[0].length) {
+                        break;
+                    }
+                    //if the row and column are not in the array, print "Invalid input"
+                    else {
+                        System.out.println("Invalid input");
+                    }
+                } catch (Exception e) {
+                    //if the user enters a non-integer, print "Invalid input"
+                    System.out.println("Invalid input");
+                    //clear the scanner
+                    kb.nextLine();
+                }
+
+            }
+
+
+            //push the row and column to the stack
+            coordinates.push(new Pair(row, column));
+
+            //loop until the stack is empty
+            while (!coordinates.isEmpty()) {
+                //display the stack before each pop and format it so that it is easier to read
+                System.out.println("\nCoordinates: " + coordinates);
+                //pop the top of the stack
+                Pair pair = coordinates.pop();
+                //if the cell is not filled, fill it
+                if (pixels[pair.getRow()][pair.getColumn()] == 0) {
+                    pixels[pair.getRow()][pair.getColumn()] = count;
+                    count++;
+                }
+                //push the coordinates of any unfilled neighbours in the north, east, south, or west direction on the stack
+                //check if the cell is in the array
+                //check if the cell is not filled
+                //if the cell is in the array and not filled, push it to the stack
+
+                //check if the cell to the north is in the array and not filled
+                if (pair.getRow() - 1 >= 0 && pixels[pair.getRow() - 1][pair.getColumn()] == 0) {
+                    coordinates.push(new Pair(pair.getRow() - 1, pair.getColumn()));
+                }
+                //check if the cell to the east is in the array and not filled
+                if (pair.getColumn() + 1 < pixels[0].length && pixels[pair.getRow()][pair.getColumn() + 1] == 0) {
+                    coordinates.push(new Pair(pair.getRow(), pair.getColumn() + 1));
+                }
+                //check if the cell to the south is in the array and not filled
+                if (pair.getRow() + 1 < pixels.length && pixels[pair.getRow() + 1][pair.getColumn()] == 0) {
+                    coordinates.push(new Pair(pair.getRow() + 1, pair.getColumn()));
+                }
+                //check if the cell to the west is in the array and not filled
+                if (pair.getColumn() - 1 >= 0 && pixels[pair.getRow()][pair.getColumn() - 1] == 0) {
+                    coordinates.push(new Pair(pair.getRow(), pair.getColumn() - 1));
+                }
+                //print the array if the stack is empty
+                if (coordinates.isEmpty()) {
+                    System.out.println("\n");
+                    for (int[] pixel : pixels) {
+                        System.out.println();
+                        for (int j = 0; j < pixels[0].length; j++) {
+                            //format the array so that it is easier to read
+                            System.out.printf("%4d", pixel[j]);
+                        }
+                    }
+                }
+            }
+            //prompt the user to enter 0 to stop the program or 1 to continue
+            System.out.println("\nEnter 0 to stop the program or 1 to continue");
+            choice = kb.nextInt();
+            //clear the stack
+            coordinates.clear();
+            //reset the count
+            count = 1;
+            //reset the array
+            pixels = new int[10][10];
+        }
     }
 
     public static void question3() {
@@ -122,12 +225,12 @@ public class Questions1to10CA3 {
         Stack<String> tags = new Stack<>();
         String filename;
         String input;
-        boolean balanced=true;
-        String message="";
-        int choice=1;
+        boolean balanced = true;
+        String message = "";
+        int choice = 1;
 
         //create loop to keep the program running until the user enters 0
-        while(choice!=0) {
+        while (choice != 0) {
             //prompt the user to enter a filename
             Scanner kb = new Scanner(System.in);
             System.out.println("Enter a filename");
@@ -178,12 +281,15 @@ public class Questions1to10CA3 {
                         }
                     }
                 }
-            } catch (FileNotFoundException e) {
+            }
+            //if the file is not found, throw a runtime exception
+            catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
+            //first check if the tags aren't balanced, then check if the stack is empty, otherwise the tags are not balanced
             if (!balanced) {
                 message = "The tags are not balanced";
-            } else if (tags.isEmpty()){
+            } else if (tags.isEmpty()) {
                 message = "The tags are balanced";
             } else {
                 message = "The tags are not balanced";
