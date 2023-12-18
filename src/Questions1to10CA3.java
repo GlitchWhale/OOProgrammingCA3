@@ -8,7 +8,7 @@ public class Questions1to10CA3 {
 //        question2();
 //        question3();
 //        question4();
-        question5();
+//        question5();
 //        question6();
 //        question7();
 //        question8();
@@ -16,6 +16,7 @@ public class Questions1to10CA3 {
 //        question10();
     }
 
+    //completed
     public static void question1() {
         //  Question 1 – Car Parking (Stack)
         //  A homeowner rents out parking spaces in a driveway during special events. The driveway is
@@ -86,6 +87,7 @@ public class Questions1to10CA3 {
         System.out.println("Simulation stopped");
     }
 
+    //completed
     public static void question2() {
         //    Question 2 - Flood Fill (Stack)
 //     In a paint program, a “flood fill” fills all empty pixels of a drawing with a given colour,
@@ -208,6 +210,7 @@ public class Questions1to10CA3 {
 //      next returns an identifier.
     }
 
+    //completed
     public static void question4() {
 //  Question 4 – Nested HTML Tags (Stack)
 //  Write a program that checks whether a sequence of HTML tags is properly nested. For each
@@ -298,6 +301,7 @@ public class Questions1to10CA3 {
         }
     }
 
+    //started
     public static void question5() {
         //  Question 5 – Airport Flights (Queue)
         //  An airport has only one runway. When it is busy, planes wishing to take off or land have to
@@ -358,6 +362,7 @@ public class Questions1to10CA3 {
         } while (!input.equals("quit"));
     }
 
+    //completed
     public static void question6() {
         //  Question 6 – Stock Shares Tax Calculation (Queue)
         //  Suppose you buy 100 shares of a stock at $12 per share, then another 100 at $10 per share,
@@ -369,6 +374,126 @@ public class Questions1to10CA3 {
         //  buy quantity price, and sell quantity (which causes the gain to be displayed), and quit. Hint:
         //  Keep a queue of objects of a class Block that contains the quantity and price of a block of
         //  shares.
+
+        Queue<Block> blocks = new LinkedList<>();
+        Scanner kb = new Scanner(System.in);
+        String input;
+        int quantity = 0;
+        double price;
+        double gain = 0;
+
+        //ask the user to enter a command until they enter quit
+        do {
+            System.out.println("Enter a command (buy, sell, quit)");
+            input = kb.nextLine();
+            //if the user enters buy, prompt them to enter a quantity and price and add it to the queue
+            if (input.equals("buy")) {//prompt the user to enter a quantity and price and add it to the queue
+                //the price must be greater than 0
+                System.out.println("Enter a quantity");
+                //the quantity must be greater than 0
+                while (true) {
+                    try {
+                        quantity = kb.nextInt();
+                        if (quantity > 0) {
+                            break;
+                        } else {
+                            System.out.println("Invalid quantity");
+                        }
+                    } catch (Exception e) {
+                        //if the user enters a non-integer, print "Invalid input"
+                        System.out.println("Invalid input");
+                        //clear the scanner
+                        kb.nextLine();
+                    }
+                }
+
+                System.out.println("Enter price per share");
+                //the price must be greater than 0
+                while (true) {
+                    try {
+                        price = kb.nextDouble();
+                        if (price > 0) {
+                            break;
+                        } else {
+                            System.out.println("Invalid price");
+                        }
+                    } catch (Exception e) {
+                        //if the user enters a non-integer, print "Invalid input"
+                        System.out.println("Invalid input");
+                        //clear the scanner
+                        kb.nextLine();
+                    }
+                }
+                blocks.add(new Block(quantity, price));
+                System.out.println(quantity + " shares bought at $" + price);
+                //clear the scanner
+                kb.nextLine();
+                //if the user enters sell, prompt them to enter a quantity and calculate the gain
+            } else if (input.equals("sell")) {
+                if (blocks.isEmpty()) {
+                    System.out.println("No shares to sell");
+                } else {
+                    System.out.println("Enter a quantity");
+                    while (true) {
+                        try {
+                            quantity = kb.nextInt();
+                            if (quantity > 0) {
+                                break;
+                            } else {
+                                System.out.println("Invalid quantity");
+                            }
+                        } catch (Exception e) {
+                            //if the user enters a non-integer, print "Invalid input"
+                            System.out.println("Invalid input");
+                            //clear the scanner
+                            kb.nextLine();
+                        }
+                        System.out.println("Enter a price to sell at");
+                        while (true) {
+                            try {
+                                price = kb.nextDouble();
+                                if (price > 0) {
+                                    break;
+                                } else {
+                                    System.out.println("Invalid price");
+                                }
+                            } catch (Exception e) {
+                                //if the user enters a non-integer, print "Invalid input"
+                                System.out.println("Invalid input");
+                                //clear the scanner
+                                kb.nextLine();
+                            }
+                        }
+                        //loop until the quantity is 0
+                        while (quantity != 0) {
+                            //if the quantity is greater than the quantity of the first block, calculate the gain and remove the block
+                            if (quantity > blocks.peek().getQuantity()) {
+                                gain += (blocks.peek().getQuantity() * price) - (blocks.peek().getQuantity() * blocks.peek().getPrice());
+                                quantity -= blocks.peek().getQuantity();
+                                blocks.remove();
+                            }
+                            //if the quantity is less than the quantity of the first block, calculate the gain and subtract the quantity from the block
+                            else if (quantity < blocks.peek().getQuantity()) {
+                                gain += (quantity * price) - (quantity * blocks.peek().getPrice());
+                                blocks.peek().setQuantity(blocks.peek().getQuantity() - quantity);
+                                quantity = 0;
+                            }
+                            //if the quantity is equal to the quantity of the first block, calculate the gain and remove the block
+                            else {
+                                gain += (quantity * price) - (quantity * blocks.peek().getPrice());
+                                quantity = 0;
+                                blocks.remove();
+                            }
+                        }
+                        //print the gain
+                        System.out.println("Gain: $" + gain);
+                    }
+                    //clear the scanner
+                    kb.nextLine();
+                }
+            }//print the queue
+            System.out.println(blocks);
+        } while (!input.equals("quit"));
     }
 
     public static void question7() {
