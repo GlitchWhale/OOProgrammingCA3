@@ -1,17 +1,14 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Scanner;
-import java.util.Stack;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Questions1to10CA3 {
-    public static void main(String[] args){
+    public static void main(String[] args) {
 //        question1();
-        question2();
+//        question2();
 //        question3();
 //        question4();
-//        question5();
+        question5();
 //        question6();
 //        question7();
 //        question8();
@@ -19,7 +16,7 @@ public class Questions1to10CA3 {
 //        question10();
     }
 
-    public static void question1(){
+    public static void question1() {
         //  Question 1 – Car Parking (Stack)
         //  A homeowner rents out parking spaces in a driveway during special events. The driveway is
         //  a “last-in, first-out” LIFO stack. Of course, when a car owner retrieves a vehicle that wasn’t
@@ -89,7 +86,7 @@ public class Questions1to10CA3 {
         System.out.println("Simulation stopped");
     }
 
-    public static void question2(){
+    public static void question2() {
         //    Question 2 - Flood Fill (Stack)
 //     In a paint program, a “flood fill” fills all empty pixels of a drawing with a given colour,
 //      stopping when it reaches occupied pixels. In this exercise, you will implement a simple
@@ -314,6 +311,51 @@ public class Questions1to10CA3 {
         //  takeoff(“Flight-220”); // is queued
         //  land(“Flight-320”); // is queued
         //  next(); // will complete the takeoff/landing of the current flight and initiate landing of the next prioritized flight’ i.e. Flight-320
+
+        Queue<String> takeOff = new LinkedList<>();
+        Queue<String> land = new LinkedList<>();
+        Scanner kb = new Scanner(System.in);
+        String input;
+        String flight;
+        boolean loop;
+
+        //ask the user to enter a command until they enter quit
+        do {
+            System.out.println("Enter a command (takeoff, land, next, quit)");
+            input = kb.nextLine();
+            //if the user enters takeoff, prompt them to enter a flight symbol and add it to the takeoff queue
+            switch (input) {
+                case "takeoff" -> {
+                    loop = true;
+                    while (loop) {
+                        System.out.println("Enter a flight symbol, enter back to stop adding flights");
+                        flight = kb.nextLine();
+                        takeOff.add(flight);
+                        System.out.println(flight+" added to takeoff queue");
+                        if (flight.equals("back")) {
+                            loop = false;
+                        }
+                    }
+                }
+                //if the user enters land, prompt them to enter a flight symbol and add it to the land queue
+                case "land" -> {
+                    loop = true;
+                    while (loop) {
+                        System.out.println("Enter a flight symbol, enter back to stop adding flights");
+                        flight = kb.nextLine();
+                        land.add(flight);
+                        System.out.println(flight+" added to land queue");
+                        if (flight.equals("back")) {
+                            loop = false;
+                        }
+                    }
+                }
+                //complete the takeoff or landing of the current flight and initiate landing of the next prioritized flight
+                case "next" -> {
+                        //I don't understand if you land all flights then takeoff all flights or if you land one then takeoff one
+                }
+            }
+        } while (!input.equals("quit"));
     }
 
     public static void question6() {
