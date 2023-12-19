@@ -1,8 +1,8 @@
-public class Block {
+public class Share {
     private int quantity;
-    private final double price;
+    private double price;
 
-    public Block(int quantity, double price) {
+    public Share(int quantity, double price) {
         this.quantity = quantity;
         this.price = price;
     }
