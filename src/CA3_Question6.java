@@ -28,7 +28,7 @@ public class CA3_Question6 {
      */
     public static void main(String[] args) {
 
-        Queue<Share> blocks = new LinkedList<>();
+        Queue<Block> Shares = new LinkedList<>();
         Scanner in = new Scanner(System.in);
         String command = "";
         do {
@@ -69,13 +69,13 @@ public class CA3_Question6 {
                         in.nextLine();
                     }
                 }
-                blocks.add(new Share(quantity, price));
+                Shares.add(new Block(quantity, price));
                 System.out.println(quantity + " shares bought at $" + price);
 
             } else if (command.equals("sell")) {
                 int quantity;
                 double price, gain = 0;
-                if (blocks.isEmpty()) {
+                if (Shares.isEmpty()) {
                     System.out.println("No shares to sell");
                 } else {
                     System.out.print("Quantity >");
@@ -113,22 +113,22 @@ public class CA3_Question6 {
                     //loop until the quantity is 0
                     while (quantity != 0) {
                         //if the quantity is greater than the quantity of the first block, calculate the gain and remove the block
-                        if (quantity > blocks.peek().getQuantity()) {
-                            gain += (blocks.peek().getQuantity() * price) - (blocks.peek().getQuantity() * blocks.peek().getPrice());
-                            quantity -= blocks.peek().getQuantity();
-                            blocks.remove();
+                        if (quantity > Shares.peek().getQuantity()) {
+                            gain += (Shares.peek().getQuantity() * price) - (Shares.peek().getQuantity() * Shares.peek().getPrice());
+                            quantity -= Shares.peek().getQuantity();
+                            Shares.remove();
                         }
                         //if the quantity is less than the quantity of the first block, calculate the gain and subtract the quantity from the block
-                        else if (quantity < blocks.peek().getQuantity()) {
-                            gain += (quantity * price) - (quantity * blocks.peek().getPrice());
-                            blocks.peek().setQuantity(blocks.peek().getQuantity() - quantity);
+                        else if (quantity < Shares.peek().getQuantity()) {
+                            gain += (quantity * price) - (quantity * Shares.peek().getPrice());
+                            Shares.peek().setQuantity(Shares.peek().getQuantity() - quantity);
                             quantity = 0;
                         }
                         //if the quantity is equal to the quantity of the first block, calculate the gain and remove the block
                         else {
-                            gain += (quantity * price) - (quantity * blocks.peek().getPrice());
+                            gain += (quantity * price) - (quantity * Shares.peek().getPrice());
                             quantity = 0;
-                            blocks.remove();
+                            Shares.remove();
                         }
                     }
                     //print the gain
