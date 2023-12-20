@@ -36,33 +36,44 @@ public class CA3_Question5 {
             //if the user enters takeoff, prompt them to enter a flight symbol and add it to the takeoff queue
             switch (input) {
                 case "takeoff" -> {
-                    loop = true;
-                    while (loop) {
+                    while (true) {
                         System.out.println("Enter a flight symbol, enter back to stop adding flights");
                         flight = kb.nextLine();
+                        if (flight.equals("back")) {
+                            break;
+                        }
                         takeOff.add(flight);
                         System.out.println(flight + " added to takeoff queue");
-                        if (flight.equals("back")) {
-                            loop = false;
-                        }
                     }
                 }
                 //if the user enters land, prompt them to enter a flight symbol and add it to the land queue
                 case "land" -> {
-                    loop = true;
-                    while (loop) {
+                    while (true) {
                         System.out.println("Enter a flight symbol, enter back to stop adding flights");
                         flight = kb.nextLine();
+                        if (flight.equals("back")) {
+                            break;
+                        }
                         land.add(flight);
                         System.out.println(flight + " added to land queue");
-                        if (flight.equals("back")) {
-                            loop = false;
-                        }
+
                     }
                 }
                 //complete the takeoff or landing of the current flight and initiate landing of the next prioritized flight
                 case "next" -> {
                     //I don't understand if you land all flights then takeoff all flights or if you land one then takeoff one
+                    //I'm going to assume you land one then takeoff one, starting with first land then takeoff
+                    if (!land.isEmpty()) {
+                        System.out.println("Flight " + land.remove() + " landed");
+                    } else {
+                        System.out.println("No flights to land");
+                    }
+                    if (!takeOff.isEmpty()) {
+                        System.out.println("Flight " + takeOff.remove() + " took off");
+                    } else {
+                        System.out.println("No flights to takeoff");
+                    }
+
                 }
             }
         } while (!input.equals("quit"));
