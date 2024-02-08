@@ -375,7 +375,7 @@ public class OriginalQuestions {
         //  Keep a queue of objects of a class Block that contains the quantity and price of a block of
         //  shares.
 
-        Queue<Share> blocks = new LinkedList<>();
+        Queue<Block> blocks = new LinkedList<>();
         Scanner kb = new Scanner(System.in);
         String input;
         int quantity = 0;
@@ -424,7 +424,7 @@ public class OriginalQuestions {
                         kb.nextLine();
                     }
                 }
-                blocks.add(new Share(quantity, price));
+                blocks.add(new Block(quantity, price));
                 System.out.println(quantity + " shares bought at $" + price);
                 //clear the scanner
                 kb.nextLine();
